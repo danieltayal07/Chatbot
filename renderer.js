@@ -181,53 +181,6 @@ function handleFiles(files) {
   }
 }
 
-// Check if the browser supports Speech Recognition API
-const isSpeechRecognitionSupported = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
-
-if (isSpeechRecognitionSupported) {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  const recognition = new SpeechRecognition();
-  recognition.continuous = true; // Keep recognizing speech until stopped
-  recognition.lang = 'en-US'; // Set language
-
-  // Start recognition when the user clicks a button or activates it
-  const startVoiceCommand = () => {
-    recognition.start();
-    console.log('Voice recognition started...');
-  };
-
-  const stopVoiceCommand = () => {
-    recognition.stop();
-    console.log('Voice recognition stopped...');
-  };
-
-  // Handle speech input
-  recognition.onresult = (event) => {
-    const transcript = event.results[event.resultIndex][0].transcript;
-    console.log('Recognized Text:', transcript);
-
-    // Send recognized text as a message to the chatbot
-    document.getElementById('input').value = transcript;
-    sendMessage();
-  };
-
-  // Handle errors
-  recognition.onerror = (event) => {
-    console.error('Speech recognition error:', event.error);
-  };
-
-  // Attach to buttons or icons in the HTML
-  document.getElementById('voice-command-btn').addEventListener('click', () => {
-    if (recognition) {
-      startVoiceCommand();
-    }
-  });
-
-} else {
-  console.error('Speech Recognition API not supported in this browser.');
-}
-
 function removeFile() {
   selectedFile = null; // Resetting the selected file
   
